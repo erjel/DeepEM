@@ -35,7 +35,7 @@ def load_data(base_dir, data_ids=None, **kwargs):
             superset = {}
             for dkey in minnie_keys:
                 minnie_dir = minnie_dirs[int(dkey in minnie2_keys)]
-                dpath = os.path.join(base_dir, minnie_dir)
+                dpath = os.path.join(base_dir, minnie_dir, dkey)
                 if os.path.exists(dpath):
                     superset[dkey] = load_dataset(dpath, tag=dkey, **kwargs)
             data['minnie_superset'] = superset
@@ -43,7 +43,7 @@ def load_data(base_dir, data_ids=None, **kwargs):
             # Individual dataset
             if data_id in minnie_keys:
                 minnie_dir = minnie_dirs[int(data_id in minnie2_keys)]
-                dpath = os.path.join(base_dir, minnie_dir)
+                dpath = os.path.join(base_dir, minnie_dir, data_id)
                 assert os.path.exists(dpath)
                 data[data_id] = load_dataset(dpath, tag=data_id, **kwargs)
     return data
@@ -52,7 +52,6 @@ def load_data(base_dir, data_ids=None, **kwargs):
 def load_dataset(dpath, tag, class_keys=[], **kwargs):
     assert len(class_keys) > 0
     dset = {}
-    dpath = os.path.join(dpath, tag)
 
     # Image
     fpath = os.path.join(dpath, minnie_info['img'])
