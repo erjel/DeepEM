@@ -30,7 +30,7 @@ def load_data(base_dir, data_ids=None, **kwargs):
 
     data = {}
     for data_id in data_ids:
-        if data_id == 'minnie':
+        if data_id == 'minnie_superset':
             # Superset
             superset = {}
             for dkey in minnie_keys:

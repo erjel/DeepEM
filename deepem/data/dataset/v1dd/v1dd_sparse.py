@@ -27,7 +27,7 @@ def load_data(base_dir, data_ids=None, **kwargs):
 
     data = {}
     for data_id in data_ids:
-        if data_id == 'v1dd_sparse':
+        if data_id == 'v1dd_sparse_superset':
             # Superset
             superset = {}
             for dkey in data_keys:
