@@ -7,7 +7,7 @@ import dataprovider3.emio as emio
 # Basil dataset
 data_dir = 'basil/ground_truth'
 basil_dir = 'mip1/padded_x512_y512_z32'
-basil_keys = ['basil{:0>2d}'.format(i+1) for i in range(11)]
+basil_keys = ['basil0{:0>2d}'.format(i+1) for i in range(11)]
 basil_info = {
     'img': 'img.h5',
     'seg': 'seg.h5',
