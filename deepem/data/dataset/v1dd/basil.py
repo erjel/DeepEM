@@ -71,7 +71,7 @@ def load_dataset(dpath, tag, class_keys=[], **kwargs):
 
     # Myelin (optional)
     if 'mye' in class_keys:
-        fpath = os.path.join(dpath, info['mye'])
+        fpath = os.path.join(dpath, basil_info['mye'])
         if os.path.exists(fpath):
             print(fpath)
             dset['mye'] = emio.imread(fpath).astype(np.uint8)
@@ -81,7 +81,7 @@ def load_dataset(dpath, tag, class_keys=[], **kwargs):
 
     # Blood vessel (optional)
     if 'blv' in class_keys:
-        fpath = os.path.join(dpath, info['blv'])
+        fpath = os.path.join(dpath, basil_info['blv'])
         if os.path.exists(fpath):
             print(fpath)
             dset['blv'] = emio.imread(fpath).astype(np.uint8)

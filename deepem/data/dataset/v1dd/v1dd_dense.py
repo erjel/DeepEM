@@ -67,7 +67,7 @@ def load_dataset(dpath, class_keys=[], **kwargs):
 
     # Myelin (optional)
     if 'mye' in class_keys:
-        fpath = os.path.join(dpath, info['mye'])
+        fpath = os.path.join(dpath, data_info['mye'])
         if os.path.exists(fpath):
             print(fpath)
             dset['mye'] = emio.imread(fpath).astype(np.uint8)
@@ -76,7 +76,7 @@ def load_dataset(dpath, class_keys=[], **kwargs):
             dset['mye'] = np.zeros_like(dset['msk'])
 
     # Fold mask (optional)
-    fpath = os.path.join(dpath, info['fld'])
+    fpath = os.path.join(dpath, data_info['fld'])
     if os.path.exists(fpath):
         print(fpath)
         fld = emio.imread(fpath).astype(np.uint8)
