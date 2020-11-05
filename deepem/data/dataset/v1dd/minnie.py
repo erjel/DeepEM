@@ -55,19 +55,19 @@ def load_dataset(dpath, tag, class_keys=[], **kwargs):
     dpath = os.path.join(dpath, tag)
 
     # Image
-    fpath = os.path.join(dpath, data_info['img'])
+    fpath = os.path.join(dpath, minnie_info['img'])
     print(fpath)
     dset['img'] = emio.imread(fpath).astype(np.float32)
     dset['img'] /= 255.0
 
     # Mask
-    fpath = os.path.join(dpath, data_info['msk'])
+    fpath = os.path.join(dpath, minnie_info['msk'])
     print(fpath)
     dset['msk'] = emio.imread(fpath).astype(np.uint8)
 
     # Segmentation
     if 'aff' in class_keys or 'long' in class_keys:
-        fpath = os.path.join(dpath, data_info['seg'])
+        fpath = os.path.join(dpath, minnie_info['seg'])
         print(fpath)
         dset['seg'] = emio.imread(fpath).astype(np.uint32)
 
@@ -100,6 +100,6 @@ def load_dataset(dpath, tag, class_keys=[], **kwargs):
         dset['msk'][fld > 0] = 0
 
     # Additoinal info
-    dset['loc'] = data_info['loc']
+    dset['loc'] = minnie_info['loc']
 
     return dset
