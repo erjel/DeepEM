@@ -31,14 +31,14 @@ def load_data(base_dir, data_ids=None, **kwargs):
             # Superset
             superset = {}
             for dkey in data_keys:
-                dpath = os.path.join(base_dir, dkey)
+                dpath = os.path.join(base_dir, data_info['dir'], dkey)
                 if os.path.exists(dpath):
                     superset[dkey] = load_dataset(dpath, **kwargs)
             data['v1dd_dense_superset'] = superset
         else:
             # Individual dataset
             if data_id in data_keys:
-                dpath = os.path.join(base_dir, data_id)
+                dpath = os.path.join(base_dir, data_info['dir'], data_id)
                 assert os.path.exists(dpath)
                 data[data_id] = load_dataset(dpath, **kwargs)
     return data
@@ -47,7 +47,6 @@ def load_data(base_dir, data_ids=None, **kwargs):
 def load_dataset(dpath, class_keys=[], **kwargs):
     assert len(class_keys) > 0
     dset = {}
-    dpath = os.path.join(dpath, data_info['dir'])
 
     # Image
     fpath = os.path.join(dpath, data_info['img'])
