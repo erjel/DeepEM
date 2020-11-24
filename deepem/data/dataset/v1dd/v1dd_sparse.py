@@ -65,11 +65,11 @@ def load_dataset(dpath, class_keys=[], **kwargs):
     dset['seg'] = emio.imread(fpath).astype(np.uint32)
 
     # Background mask
-    idx = dset['seg'] == 1
+    idx = dset['seg'] == 99
     dset['msk'][idx] = 0
 
     # Membrane swirl
-    idx = dset['seg'] == 2
+    idx = dset['seg'] == 98
     dset['seg'][idx] = 0
 
     # Myelin (optional)
