@@ -33,9 +33,9 @@ if __name__ == "__main__":
     # Run inference
     for i, b in enumerate(batch):
         print(f"Batch run {i+1}")
-        cmd = "python deepem/test/run.py "
-        cmd += args.params.format(**b, iter=args.iter)
+        cmd = "deepem/test/run.py"
+        arg = args.params.format(**b, iter=args.iter)
         if args.dry_run:
-            print(cmd)
+            print(["python", cmd, arg])
         else:
-            subprocess.run(cmd)
+            subprocess.run(["python", cmd] + arg.split())
