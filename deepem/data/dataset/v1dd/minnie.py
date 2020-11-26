@@ -7,8 +7,8 @@ import dataprovider3.emio as emio
 # Minnie dataset
 data_dir = 'minnie/ground_truth'
 minnie_dirs = ['mip1/padded_x512_y512_z0', 'mip1/padded_x512_y512_z32']
-minnie1_keys = ['minnie0{:0>2d}'.format(i+1) for i in range(15)]
-minnie2_keys = ['minnie0{:0>2d}'.format(i+1) for i in range(15,27)]
+minnie1_keys = [f"minnie{i+1:03d}" for i in range(15)]
+minnie2_keys = [f"minnie{i+1:03d}" for i in range(15,27)]
 minnie_keys = minnie1_keys + minnie2_keys
 minnie_info = {
     'img': 'img.h5',

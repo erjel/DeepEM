@@ -23,8 +23,8 @@ def load_model(opt):
 
 
 def load_chkpt(model, fpath, chkpt_num):
-    print("LOAD CHECKPOINT: {} iters.".format(chkpt_num))
-    fname = os.path.join(fpath, "model{}.chkpt".format(chkpt_num))
+    print(f"LOAD CHECKPOINT: {chkpt_num} iters.")
+    fname = os.path.join(fpath, f"model{chkpt_num}.chkpt")
     model.load(fname)
     return model
 
@@ -107,7 +107,7 @@ def save_output(output, opt, data_name=None, aug_out=None):
                 raise
         else:
             dname = data_name.replace('/', '_')
-            fname = "{}_{}_{}".format(dname, k, opt.chkpt_num)
+            fname = f"{dname}_{k}_{opt.chkpt_num}"
             if opt.out_prefix:
                 fname = opt.out_prefix + '_' + fname
             if opt.out_tag:

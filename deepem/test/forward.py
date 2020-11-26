@@ -39,7 +39,7 @@ class Forward(object):
             for aug in self.test_aug:
                 # dec2bin
                 rule = np.array([int(x) for x in bin(aug)[2:].zfill(4)])
-                print("Test-time augmentation {}".format(rule))
+                print(f"Test-time augmentation {rule}")
 
                 # Augment dataset.
                 aug_dset = Dataset(spec=self.in_spec)
@@ -52,7 +52,7 @@ class Forward(object):
 
                 # Accumulate.
                 for k, v in scanner.outputs.data.items():
-                    print("Accumulate to {}...".format(k))
+                    print(f"Accumulate to {k}...")
                     output = outputs.get_data(k)
 
                     # Revert output.
@@ -68,7 +68,7 @@ class Forward(object):
 
             # Normalize.
             for k, v in scanner.outputs.data.items():
-                print("Normalize {}...".format(k))
+                print(f"Normalize {k}...")
                 if self.precomputed:
                     v._data[...] /= count
                 else:

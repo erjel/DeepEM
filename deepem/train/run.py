@@ -114,5 +114,5 @@ if __name__ == "__main__":
     torch.backends.cudnn.benchmark = not opt.no_autotune
 
     # Run experiment.
-    print("Running experiment: {}".format(opt.exp_name))
+    print(f"Running experiment: {opt.exp_name}")
     train(opt)

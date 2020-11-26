@@ -121,7 +121,7 @@ class Options(object):
         if opt.exp_name.split('/')[0] == 'experiments':
             opt.exp_dir = opt.exp_name
         else:
-            opt.exp_dir = 'experiments/{}'.format(opt.exp_name)
+            opt.exp_dir = f"experiments/{opt.exp_name}"
         if opt.test:
             opt.exp_dir = 'test/' + opt.exp_dir
         opt.log_dir = os.path.join(opt.exp_dir, 'logs')

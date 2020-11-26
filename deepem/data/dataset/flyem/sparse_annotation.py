@@ -14,7 +14,7 @@ data_info = {
     'dir': 'mip1/padded_x384_y384_z20',
     'loc': True,
 }
-data_keys = ['svol0{:0>2d}'.format(i+1) for i in range(44)]
+data_keys = [f"svol{i+1:03d}" for i in range(44)]
 
 
 def load_data(base_dir, data_ids=None, **kwargs):

@@ -38,13 +38,13 @@ def cutout(opt, gs_path, dtype='uint8'):
             else:
                 opt.end = tuple(x + y for x, y in zip(opt.begin, opt.size))
     sl = [slice(x,y) for x, y in zip(opt.begin, opt.end)]
-    print('begin = {}'.format(opt.begin))
-    print('end = {}'.format(opt.end))
+    print(f"begin = {opt.begin}")
+    print(f"end = {opt.end}")
 
     # Coordinates
-    print('mip 0 = {}'.format(sl))
+    print(f"mip 0 = {sl}")
     sl = cvol.slices_from_global_coords(sl)
-    print('mip {} = {}'.format(opt.in_mip, sl))
+    print(f"mip {opt.in_mip} = {sl}")
     cutout = cvol[sl]
 
     # Transpose & squeeze
@@ -89,7 +89,7 @@ def ingest(data, opt, tag=None):
                 coord = "x{}_y{}_z{}".format(*opt.center)
                 coord += "_s{}-{}-{}".format(*opt.size)
             else:
-                coord = '_'.join(['{}-{}'.format(b,e) for b,e in zip(opt.begin,opt.end)])
+                coord = '_'.join([f"{b}-{e}" for b,e in zip(opt.begin,opt.end)])
             gs_path = gs_path.format(coord)
 
     # Tagging
@@ -99,7 +99,7 @@ def ingest(data, opt, tag=None):
         else:
             gs_path += ('/' + tag)
 
-    print("gs_output:\n{}".format(gs_path))
+    print(f"gs_output:\n{gs_path}")
     cvol = cv.CloudVolume(gs_path, mip=0, info=info,
                           parallel=opt.parallel)
     cvol[:,:,:,:] = data

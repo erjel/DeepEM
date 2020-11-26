@@ -57,7 +57,7 @@ class Logger(object):
 
     def log(self, phase, iter_num, stats):
         for k, v in stats.items():
-            self.writer.add_scalar('{}/{}'.format(phase, k), v, iter_num)
+            self.writer.add_scalar(f"{phase}/{k}", v, iter_num)
 
     def display(self, phase, iter_num, stats):
         disp = "[%s] Iter: %8d, " % (phase, iter_num)
@@ -97,7 +97,7 @@ class Logger(object):
 
         # Inputs
         for k in sorted(self.in_spec):
-            tag = '{}/images/{}'.format(phase, k)
+            tag = f"{phase}/images/{k}"
             tensor = sample[k][0,...].cpu()
             tensor = torch_utils.crop_center(tensor, cropsz)
             self.log_image(tag, tensor, iter_num)
@@ -106,52 +106,52 @@ class Logger(object):
         for k in sorted(self.out_spec):
             if k == 'affinity':
                 # Prediction
-                tag = '{}/images/{}'.format(phase, k)
+                tag = f"{phase}/images/{k}"
                 tensor = torch.sigmoid(preds[k][0,0:3,...]).cpu()
                 self.log_image(tag, tensor, iter_num)
 
                 # Mask
-                tag = '{}/masks/{}'.format(phase, k)
+                tag = f"{phase}/masks/{k}"
                 msk = sample[k + '_mask'][0,...].cpu()
                 self.log_image(tag, msk, iter_num)
 
                 # Target
-                tag = '{}/labels/{}'.format(phase, k)
+                tag = f"{phase}/labels/{k}"
                 seg = sample[k][0,0,...].cpu().numpy().astype('uint32')
                 rgb = torch.from_numpy(py_utils.seg2rgb(seg))
                 self.log_image(tag, rgb, iter_num)
 
             elif k == 'myelin':
                 # Prediction
-                tag = '{}/images/{}'.format(phase, k)
+                tag = f"{phase}/images/{k}"
                 pred = torch.sigmoid(preds[k][0,...]).cpu()
                 self.log_image(tag, pred, iter_num)
 
             elif k == 'mitochondria':
                 # Prediction
-                tag = '{}/images/{}'.format(phase, k)
+                tag = f"{phase}/images/{k}"
                 pred = torch.sigmoid(preds[k][0,...]).cpu()
                 self.log_image(tag, pred, iter_num)
 
                 # Target
-                tag = '{}/labels/{}'.format(phase, k)
+                tag = f"{phase}/labels/{k}"
                 target = sample[k][0,...].cpu()
                 self.log_image(tag, target, iter_num)
 
             elif k == 'synapse':
                 # Prediction
-                tag = '{}/images/{}'.format(phase, k)
+                tag = f"{phase}/images/{k}"
                 pred = torch.sigmoid(preds[k][0,...]).cpu()
                 self.log_image(tag, pred, iter_num)
 
                 # Target
-                tag = '{}/labels/{}'.format(phase, k)
+                tag = f"{phase}/labels/{k}"
                 target = sample[k][0,...].cpu()
                 self.log_image(tag, target, iter_num)
 
             elif k == 'blood_vessel':
                 # Prediction
-                tag = '{}/images/{}'.format(phase, k)
+                tag = f"{phase}/images/{k}"
                 pred = torch.sigmoid(preds[k][0,...]).cpu()
                 if self.blv_num_channels == 2:
                     zero = torch.zeros_like(pred[[0],...])
@@ -160,12 +160,12 @@ class Logger(object):
 
             elif k == 'glia':
                 # Prediction
-                tag = '{}/images/{}'.format(phase, k)
+                tag = f"{phase}/images/{k}"
                 pred = torch.sigmoid(preds[k][0,...]).cpu()
                 self.log_image(tag, pred, iter_num)
 
                 # Target
-                tag = '{}/labels/{}'.format(phase, k)
+                tag = f"{phase}/labels/{k}"
                 target = sample[k][0,...].cpu()
                 self.log_image(tag, target, iter_num)
 
@@ -177,19 +177,19 @@ class Logger(object):
         self.writer.add_image(tag, img, iter_num)
 
     def log_params(self, params):
-        fname = os.path.join(self.log_dir, "{}_params.csv".format(self.timestamp))
+        fname = os.path.join(self.log_dir, f"{self.timestamp}_params.csv")
         with open(fname, "w+") as f:
             for k, v in params.items():
-                f.write("{k}: {v}\n".format(k=k, v=v))
+                f.write(f"{k}: {v}\n")
 
     def log_command(self):
-        fname = os.path.join(self.log_dir, "{}_command".format(self.timestamp))
+        fname = os.path.join(self.log_dir, f"{self.timestamp}_command")
         command = " ".join(sys.argv)
         with open(fname, "w+") as f:
             f.write(command)
 
     def log_command_args(self):
-        fname = os.path.join(self.log_dir, "{}_args.txt".format(self.timestamp))
+        fname = os.path.join(self.log_dir, f"{self.timestamp}_args.txt")
         with open(fname, "w+") as f:
             for arg in sys.argv[1:]:
                 f.write(arg + "\n")

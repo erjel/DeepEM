@@ -54,10 +54,10 @@ def load_optimizer(opt, trainable):
 
     if not opt.pretrain and opt.chkpt_num > 0:
         n = opt.chkpt_num
-        fname = os.path.join(opt.model_dir, "model{}.chkpt".format(n))
+        fname = os.path.join(opt.model_dir, f"model{n}.chkpt")
         chkpt = torch.load(fname)
         if 'optimizer' in chkpt:
-            print("LOAD OPTIM STATE: {} iters.".format(n))
+            print(f"LOAD OPTIM STATE: {n} iters.")
             optimizer.load_state_dict(chkpt['optimizer'])
             for state in optimizer.state.values():
                 for k, v in state.items():
@@ -69,15 +69,15 @@ def load_optimizer(opt, trainable):
 
 
 def load_chkpt(model, fpath, chkpt_num):
-    print("LOAD CHECKPOINT: {} iters.".format(chkpt_num))
-    fname = os.path.join(fpath, "model{}.chkpt".format(chkpt_num))
+    print(f"LOAD CHECKPOINT: {chkpt_num} iters.")
+    fname = os.path.join(fpath, f"model{chkpt_num}.chkpt")
     model.load(fname)
     return model
 
 
 def save_chkpt(model, fpath, chkpt_num, optimizer):
-    print("SAVE CHECKPOINT: {} iters.".format(chkpt_num))
-    fname = os.path.join(fpath, "model{}.chkpt".format(chkpt_num))
+    print(f"SAVE CHECKPOINT: {chkpt_num} iters.")
+    fname = os.path.join(fpath, f"model{chkpt_num}.chkpt")
     state = {'iter': chkpt_num,
              'state_dict': model.state_dict(),
              'optimizer': optimizer.state_dict()}

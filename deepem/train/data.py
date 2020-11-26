@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 def worker_init_fn(worker_id):
     # Each worker already has its own random torch state.
     seed = torch.IntTensor(1).random_()[0]
-    # print("worker ID = {}, seed = {}".format(worker_id, seed))
+    # print(f"worker ID = {worker_id}, seed = {seed}")
     np.random.seed(seed)
 
 

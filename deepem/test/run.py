@@ -44,5 +44,5 @@ if __name__ == "__main__":
     torch.backends.cudnn.benchmark = not opt.no_autotune
 
     # Run inference.
-    print("Running inference: {}".format(opt.exp_name))
+    print(f"Running inference: {opt.exp_name}")
     test(opt)

@@ -15,7 +15,7 @@ data_info = {
     'dir': 'mip1/padded_x512_y512_z32',
     'loc': True,
 }
-data_keys = ['v1dd_sparse0{:0>2d}'.format(i+1) for i in range(20)]
+data_keys = [f"v1dd_sparse{i+1:03d}" for i in range(20)]
 
 
 def load_data(base_dir, data_ids=None, **kwargs):
