@@ -13,6 +13,10 @@ if __name__ == "__main__":
         required=True,
         help='local path to the JSON batch spec')
     parser.add_argument(
+        '--iter', 
+        type=int, 
+        default=0)
+    parser.add_argument(
         '--params', 
         type=str,
         required=True,
@@ -29,7 +33,8 @@ if __name__ == "__main__":
     # Run inference
     for i, b in enumerate(batch):
         print(f"Batch run {i+1}")
-        cmd = ("python deepem/test/run.py " + args.params).format(**b)
+        cmd = "python deepem/test/run.py "
+        cmd += args.params.format(**b, iter=args.iter)
         if args.dry_run:
             print(cmd)
         else:
