@@ -2,18 +2,23 @@ import argparse
 import json
 import multiprocessing
 import subprocess
-from taskqueue import LocalTaskQueue
+from taskqueue import LocalTaskQueue, RegisteredTask
 
 
 cmd = "deepem/test/run.py"
 
 
-def single_run(opt, gpu_id):
-    args = opt.params.format(**b, iter=opt.iter, gpu_id=gpu_id)
-    if opt.dry_run:
-        print(["python", cmd, args])
-    else:
-        subprocess.run(["python", cmd] + args.split())
+class SingleRunTask(RegisteredTask):
+    def __init__(self, opts, args):
+        super(SingleRunTask, self).__init__(opts, args)
+        self.opts = opts
+        self.args = args
+
+    def execute(self):
+        if self.opts.dry_run:
+            print(["python", cmd, self.args])
+        else:
+            subprocess.run(["python", cmd] + self.args.split())
 
 
 if __name__ == "__main__":
@@ -40,26 +45,22 @@ if __name__ == "__main__":
     parser.add_argument(
         '--dry_run',
         action='store_true')
-    opt = parser.parse_args()
+    opts = parser.parse_args()
 
     # JSON batch spec
-    with open(opt.spec, "r") as f:
+    with open(opts.spec, "r") as f:
         batch = json.load(f)
 
     # Run inference
-    gpu_ids = [opt.gpu_ids[i % len(opt.gpu_ids)] for i in range(len(batch))]
-    tasks = (single_run(opt, gpu_id=i) for i in gpu_ids)
-    with LocalTaskQueue(parallel=len(opt.gpu_ids)) as tq:
+    p = len(opts.gpu_ids)
+    tasks = (SingleRunTask(opts, opts.params.format(**b, iter=opts.iter, gpu_id=opts.gpu_ids[i % p])) for i, b in enumerate(batch))
+    with LocalTaskQueue(parallel=p) as tq:
         tq.insert_all(tasks)
-
-    # Run inference
-    # pool = multiprocessing.Pool(len(opt.gpu_ids))
-    # pool.map_async()
 
     # for i, b in enumerate(batch):
     #     print(f"Batch run {i+1}")
-    #     args = opt.params.format(**b, iter=opt.iter)
-    #     if opt.dry_run:
+    #     args = opts.params.format(**b, iter=opts.iter)
+    #     if opts.dry_run:
     #         print(["python", cmd, args])
     #     else:
     #         subprocess.run(["python", cmd] + args.split())
