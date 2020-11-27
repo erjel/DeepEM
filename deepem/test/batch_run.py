@@ -1,8 +1,19 @@
 import argparse
 import json
-import os
+import multiprocessing
 import subprocess
-import sys
+from taskqueue import LocalTaskQueue
+
+
+cmd = "deepem/test/run.py"
+
+
+def single_run(opt, gpu_id):
+    args = opt.params.format(**b, iter=opt.iter, gpu_id=gpu_id)
+    if opt.dry_run:
+        print(["python", cmd, args])
+    else:
+        subprocess.run(["python", cmd] + args.split())
 
 
 if __name__ == "__main__":
@@ -17,6 +28,11 @@ if __name__ == "__main__":
         type=int, 
         default=0)
     parser.add_argument(
+        '--gpu_ids', 
+        type=str, 
+        default=['0'], 
+        nargs='+')
+    parser.add_argument(
         '--params', 
         type=str,
         required=True,
@@ -24,18 +40,26 @@ if __name__ == "__main__":
     parser.add_argument(
         '--dry_run',
         action='store_true')
-    args = parser.parse_args()
+    opt = parser.parse_args()
 
     # JSON batch spec
-    with open(args.spec, "r") as f:
+    with open(opt.spec, "r") as f:
         batch = json.load(f)
 
     # Run inference
-    for i, b in enumerate(batch):
-        print(f"Batch run {i+1}")
-        cmd = "deepem/test/run.py"
-        arg = args.params.format(**b, iter=args.iter)
-        if args.dry_run:
-            print(["python", cmd, arg])
-        else:
-            subprocess.run(["python", cmd] + arg.split())
+    gpu_ids = [opt.gpu_ids[i % len(opt.gpu_ids)] for i in range(len(batch))]
+    tasks = (single_run(opt, gpu_id=i) for i in gpu_ids)
+    with LocalTaskQueue(parallel=len(opt.gpu_ids)) as tq:
+        tq.insert_all(tasks)
+
+    # Run inference
+    # pool = multiprocessing.Pool(len(opt.gpu_ids))
+    # pool.map_async()
+
+    # for i, b in enumerate(batch):
+    #     print(f"Batch run {i+1}")
+    #     args = opt.params.format(**b, iter=opt.iter)
+    #     if opt.dry_run:
+    #         print(["python", cmd, args])
+    #     else:
+    #         subprocess.run(["python", cmd] + args.split())
