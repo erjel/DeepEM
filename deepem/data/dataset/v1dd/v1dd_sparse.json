@@ -20,8 +20,83 @@
         "center": "252004,184336,12288"
     },
     {
+        "tag": "sparse_cutout005",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout005",
+        "center": "251778,183498,12291"
+    },
+    {
         "tag": "sparse_cutout006",
         "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout006",
         "center": "254222,182066,12153"
-    }
+    },
+    {
+        "tag": "sparse_cutout007",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout007",
+        "center": "253310,181210,12108"
+    },
+    {
+        "tag": "sparse_cutout008",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout008",
+        "center": "251786,181516,12107"
+    },
+    {
+        "tag": "sparse_cutout009",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout009",
+        "center": "252680,183360,12138"
+    },
+    {
+        "tag": "sparse_cutout010",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout010",
+        "center": "251648,180806,12263"
+    },
+    {
+        "tag": "sparse_cutout011",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout011",
+        "center": "251506,181082,12254"
+    },
+    {
+        "tag": "sparse_cutout012",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout012",
+        "center": "253750,181580,12394"
+    },
+    {
+        "tag": "sparse_cutout013",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout013",
+        "center": "251540,180920,12275"
+    },
+    {
+        "tag": "sparse_cutout014",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout014",
+        "center": "250746,181676,12450"
+    },
+    {
+        "tag": "sparse_cutout015",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout015",
+        "center": "253856,183636,12212"
+    },
+    {
+        "tag": "sparse_cutout016",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout016",
+        "center": "252298,181466,12167"
+    },
+    {
+        "tag": "sparse_cutout017",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout017",
+        "center": "252218,180720,12100"
+    },
+    {
+        "tag": "sparse_cutout018",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout018",
+        "center": "251122,181732,12117"
+    },
+    {
+        "tag": "sparse_cutout019",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout019",
+        "center": "251366,183952,12128"
+    },
+    {
+        "tag": "sparse_cutout020",
+        "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout020",
+        "center": "253926,181772,12133"
+    },
 ]
