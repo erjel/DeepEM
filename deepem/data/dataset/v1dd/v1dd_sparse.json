@@ -98,5 +98,5 @@
         "tag": "sparse_cutout020",
         "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout020",
         "center": "253926,181772,12133"
-    },
+    }
 ]
