@@ -1,5 +1,4 @@
 [
-    // sparse_cutout02X
     {
         "tag": "sparse_cutout021",
         "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout021",
@@ -10,8 +9,6 @@
         "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout022",
         "center": "251456,182042,12254"
     },
-
-    // sparse_cutout03X
     {
         "tag": "sparse_cutout031",
         "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout031",
@@ -101,5 +98,5 @@
         "tag": "sparse_cutout057",
         "gs_path": "gs://zetta_aibs_mouse_001_ground_truth/sparse_cutout057",
         "center": "251211,182689,12921"
-    },
+    }
 ]
