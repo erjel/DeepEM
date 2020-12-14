@@ -6,7 +6,7 @@ from torch.nn.parallel import data_parallel
 
 import deepem.loss as loss
 from deepem.train.data import Data
-from deepem.train.model import Model
+from deepem.train.model import Model, AmpModel
 
 
 def get_criteria(opt):
@@ -38,7 +38,10 @@ def get_criteria(opt):
 def load_model(opt):
     # Create a model.
     mod = imp.load_source('model', opt.model)
-    model = Model(mod.create_model(opt), get_criteria(opt), opt)
+    if opt.mixed_precision:
+        model = AmpModel(mod.create_model(opt), get_criteria(opt), opt)
+    else:
+        model = Model(mod.create_model(opt), get_criteria(opt), opt)
 
     if opt.pretrain:
         model.load(opt.pretrain)

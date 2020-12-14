@@ -110,6 +110,9 @@ class Options(object):
         # Test training
         self.parser.add_argument('--test', action='store_true')
 
+        # Mixed-precision training
+        self.parser.add_argument('--mixed_precision', action='store_true')
+
         self.initialized = True
 
     def parse(self):

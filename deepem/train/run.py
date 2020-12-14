@@ -23,6 +23,10 @@ def train(opt):
     # Initial checkpoint
     save_chkpt(model, opt.model_dir, opt.chkpt_num, optimizer)
 
+    # Mixed-precision training
+    if opt.mixed_precision:
+        scaler = torch.cuda.amp.GradScaler()
+
     # Training loop
     print("========== BEGIN TRAINING LOOP ==========")
     with Logger(opt) as logger:
@@ -37,10 +41,21 @@ def train(opt):
 
             # Optimizer step
             optimizer.zero_grad()
-            losses, nmasks, preds = forward(model, sample, opt)
-            total_loss = sum([w*losses[k] for k, w in opt.loss_weight.items()])
-            total_loss.backward()
-            optimizer.step()
+            if opt.mixed_precision:
+                with torch.cuda.amp.autocast():
+                    losses, nmasks, preds = forward(model, sample, opt)
+                    total_loss = sum([w*losses[k] for k, w in opt.loss_weight.items()])
+                    scaler.scale(total_loss).backward()
+                    scaler.step(optimizer)
+                    scaler.update()
+                losses = {k: v.float() for k, v in losses.items()}
+                nmasks = {k: v.float() for k, v in nmasks.items()}
+                preds  = {k: v.float() for k, v in preds.items()}
+            else:
+                losses, nmasks, preds = forward(model, sample, opt)
+                total_loss = sum([w*losses[k] for k, w in opt.loss_weight.items()])
+                total_loss.backward()
+                optimizer.step()
 
             # Elapsed time
             elapsed = time.time() - t0
