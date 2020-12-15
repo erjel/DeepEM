@@ -82,6 +82,7 @@ def load_dataset(dpath, class_keys=[], **kwargs):
             # Myelin mask hack
             fpath = os.path.join(dpath, data_info['mye_msk'])
             if os.path.exists(fpath):
+                print(fpath)
                 dset['mye_msk'] = emio.imread(fpath).astype(np.uint8)
         else:
             assert 'msk' in dset
