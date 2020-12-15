@@ -93,7 +93,14 @@ def eval_loop(iter_num, model, data_loader, opt, logger):
         t0 = time.time()
         for i in range(opt.eval_iter):
             sample = data_loader()
-            losses, nmasks, preds = forward(model, sample, opt)
+            if opt.mixed_precision:
+                with torch.cuda.amp.autocast():
+                    losses, nmasks, preds = forward(model, sample, opt)
+                losses = {k: v.float() for k, v in losses.items()}
+                nmasks = {k: v.float() for k, v in nmasks.items()}
+                preds  = {k: v.float() for k, v in preds.items()}
+            else:
+                losses, nmasks, preds = forward(model, sample, opt)
             elapsed = time.time() - t0
 
             # Record keeping

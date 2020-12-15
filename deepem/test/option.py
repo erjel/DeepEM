@@ -103,6 +103,9 @@ class Options(object):
 
         self.initialized = True
 
+        # Mixed-precision inference
+        self.parser.add_argument('--mixed_precision', action='store_true')
+
     def parse(self):
         if not self.initialized:
             self.initialize()

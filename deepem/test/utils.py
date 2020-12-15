@@ -5,14 +5,17 @@ from types import SimpleNamespace
 
 from dataprovider3 import Dataset, ForwardScanner, emio
 
-from deepem.test.model import Model
+from deepem.test.model import Model, AmpModel
 from deepem.utils import py_utils
 
 
 def load_model(opt):
     # Create a model.
     mod = imp.load_source('model', opt.model)
-    model = Model(mod.create_model(opt), opt)
+    if opt.mixed_precision:
+        model = AmpModel(mod.create_model(opt), opt)
+    else:
+        model = Model(mod.create_model(opt), opt)
 
     # Load from a checkpoint, if any.
     if opt.chkpt_num > 0:
