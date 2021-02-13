@@ -123,7 +123,7 @@ def histogram_per_slice(img):
     z = img.shape[-3]
     xy = img.shape[-2] * img.shape[-1]
     return np.apply_along_axis(np.bincount, axis=1, arr=img.reshape((z,xy)),
-                               minlength=255)
+                               minlength=256)
 
 
 def find_section_clamping_values(zlevel, lowerfract, upperfract):
