@@ -15,7 +15,7 @@ data_info = {
     'dir': 'mip1/padded_x512_y512_z32/d3_b0',
     'loc': True,
 }
-data_keys = [f"aibs-human_dense{i+1:03d}" for i in range(1)]
+data_keys = [f"aibs-human_dense{i+1:03d}" for i in range(4)]
 
 
 def load_data(base_dir, data_ids=None, **kwargs):
