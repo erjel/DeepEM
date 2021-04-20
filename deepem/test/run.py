@@ -33,12 +33,8 @@ if __name__ == "__main__":
     os.environ['CUDA_VISIBLE_DEVICES'] = opt.gpu_id
 
     # Make directories.
-    if not os.path.isdir(opt.exp_dir):
-        os.makedirs(opt.exp_dir)
-    if not os.path.isdir(opt.model_dir):
-        os.makedirs(opt.model_dir)
-    if not os.path.isdir(opt.fwd_dir):
-        os.makedirs(opt.fwd_dir)
+    os.makedirs(opt.exp_dir, exist_ok=True)
+    os.makedirs(opt.model_dir, exist_ok=True)
 
     # cuDNN auto-tuning
     torch.backends.cudnn.benchmark = not opt.no_autotune
