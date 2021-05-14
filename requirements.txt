@@ -1,6 +1,7 @@
 cloud-volume
 scikit-image
 scikit-learn
+task-queue
 tensorflow
 tensorboard
 tensorboardX
