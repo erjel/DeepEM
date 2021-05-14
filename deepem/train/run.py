@@ -45,9 +45,9 @@ def train(opt):
                 with torch.cuda.amp.autocast():
                     losses, nmasks, preds = forward(model, sample, opt)
                     total_loss = sum([w*losses[k] for k, w in opt.loss_weight.items()])
-                    scaler.scale(total_loss).backward()
-                    scaler.step(optimizer)
-                    scaler.update()
+                scaler.scale(total_loss).backward()
+                scaler.step(optimizer)
+                scaler.update()
                 losses = {k: v.float() for k, v in losses.items()}
                 nmasks = {k: v.float() for k, v in nmasks.items()}
                 preds  = {k: v.float() for k, v in preds.items()}
