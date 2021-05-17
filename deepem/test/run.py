@@ -35,12 +35,8 @@ if __name__ == "__main__":
         torch.backends.cudnn.benchmark = not opt.no_autotune
 
     # Make directories.
-    if not os.path.isdir(opt.exp_dir):
-        os.makedirs(opt.exp_dir)
-    if not os.path.isdir(opt.model_dir):
-        os.makedirs(opt.model_dir)
-    if not os.path.isdir(opt.fwd_dir):
-        os.makedirs(opt.fwd_dir)
+    os.makedirs(opt.exp_dir, exist_ok=True)
+    os.makedirs(opt.model_dir, exist_ok=True)
 
     # Run inference.
     print(f"Running inference: {opt.exp_name}")

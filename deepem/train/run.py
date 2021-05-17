@@ -45,6 +45,7 @@ def train(opt):
                 with torch.cuda.amp.autocast():
                     losses, nmasks, preds = forward(model, sample, opt)
                     total_loss = sum([w*losses[k] for k, w in opt.loss_weight.items()])
+                # Backward passes under autocast are not recommended.
                 scaler.scale(total_loss).backward()
                 scaler.step(optimizer)
                 scaler.update()
