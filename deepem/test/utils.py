@@ -5,14 +5,17 @@ from types import SimpleNamespace
 
 from dataprovider3 import Dataset, ForwardScanner, emio
 
-from deepem.test.model import Model
+from deepem.test.model import Model, AmpModel
 from deepem.utils import py_utils
 
 
 def load_model(opt):
     # Create a model.
     mod = imp.load_source('model', opt.model)
-    model = Model(mod.create_model(opt), opt)
+    if opt.mixed_precision:
+        model = AmpModel(mod.create_model(opt), opt)
+    else:
+        model = Model(mod.create_model(opt), opt)
 
     # Load from a checkpoint, if any.
     if opt.chkpt_num > 0:
@@ -120,7 +123,7 @@ def histogram_per_slice(img):
     z = img.shape[-3]
     xy = img.shape[-2] * img.shape[-1]
     return np.apply_along_axis(np.bincount, axis=1, arr=img.reshape((z,xy)),
-                               minlength=255)
+                               minlength=256)
 
 
 def find_section_clamping_values(zlevel, lowerfract, upperfract):

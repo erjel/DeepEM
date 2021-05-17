@@ -21,6 +21,7 @@ class Forward(object):
         self.test_aug = opt.test_aug
         self.variance = opt.variance
         self.precomputed = (opt.blend == 'precomputed')
+        self.mixed_precision = opt.mixed_precision
 
     def __call__(self, model, scanner):
         dataset = scanner.dataset
@@ -92,7 +93,12 @@ class Forward(object):
                 inputs = self.to_torch(inputs)
 
                 # Forward pass
-                outputs = model(inputs)
+                if self.mixed_precision:
+                    with torch.cuda.amp.autocast():
+                        outputs = model(inputs)
+                    outputs = {k: v.float() for k, v in outputs.items()}
+                else:
+                    outputs = model(inputs)
                 scanner.push(self.from_torch(outputs))
 
                 # Elapsed time

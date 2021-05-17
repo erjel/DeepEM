@@ -104,7 +104,10 @@ class Options(object):
         self.parser.add_argument('--dummy', action='store_true')
         self.parser.add_argument('--dummy_inputsz', type=int, default=[128,1024,1024], nargs='+')
 
-        self.initialized = True
+        # Mixed-precision inference
+        self.parser.add_argument('--mixed_precision', action='store_true')
+
+        self.initialized = True        
 
     def parse(self):
         if not self.initialized:

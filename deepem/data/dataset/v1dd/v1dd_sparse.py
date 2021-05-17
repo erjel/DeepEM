@@ -11,6 +11,7 @@ data_info = {
     'msk': 'msk.h5',
     'seg': 'seg.h5',
     'mye': 'mye.h5',
+    'mye_msk': 'mye_msk.h5',
     'fld': 'fld.h5',
     'dir': 'mip1/padded_x512_y512_z32',
     'loc': True,
@@ -78,6 +79,11 @@ def load_dataset(dpath, class_keys=[], **kwargs):
         if os.path.exists(fpath):
             print(fpath)
             dset['mye'] = emio.imread(fpath).astype(np.uint8)
+            # Myelin mask hack
+            fpath = os.path.join(dpath, data_info['mye_msk'])
+            if os.path.exists(fpath):
+                print(fpath)
+                dset['mye_msk'] = emio.imread(fpath).astype(np.uint8)
         else:
             assert 'msk' in dset
             dset['mye'] = np.zeros_like(dset['msk'])

@@ -77,6 +77,7 @@ class Sampler(object):
         mye = data['mye']
         loc = data['loc']
         msk = self.get_mask(data)
+        mye_msk = data['mye_msk'] if 'mye_msk' in data else msk
 
         # Create Dataset.
         dset = Dataset(tag=tag)
@@ -84,7 +85,7 @@ class Sampler(object):
         dset.add_data(key='affinity', data=seg)
         dset.add_mask(key='affinity_mask', data=msk, loc=loc)
         dset.add_data(key='myelin', data=mye)
-        dset.add_mask(key='myelin_mask', data=msk)
+        dset.add_mask(key='myelin_mask', data=mye_msk)
 
         return dset
 

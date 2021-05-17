@@ -81,3 +81,12 @@ class Model(nn.Module):
             self.model.load_state_dict(model_dict)
         else:
             self.model.load_state_dict(state_dict)
+
+
+class AmpModel(Model):
+    def __init__(self, *args):
+        super(AmpModel, self).__init__(*args)
+
+    def forward(self, sample):
+        with torch.cuda.amp.autocast():
+            return super().forward(sample)

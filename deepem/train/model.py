@@ -65,4 +65,3 @@ class AmpModel(Model):
     def forward(self, sample):
         with torch.cuda.amp.autocast():
             return super().forward(sample)
-
