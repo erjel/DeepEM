@@ -3,6 +3,8 @@ import numpy as np
 import cloudvolume as cv
 from cloudvolume.lib import Vec, Bbox
 from taskqueue import LocalTaskQueue
+import igneous
+from igneous.task_creation import create_downsampling_tasks
 
 from deepem.utils import py_utils
 
@@ -107,10 +109,6 @@ def ingest(data, opt, tag=None):
 
     # Downsample
     if opt.downsample:
-        import igneous
-        from igneous.task_creation import create_downsampling_tasks
-
         with LocalTaskQueue(parallel=opt.parallel) as tq:
-            # create_downsampling_tasks(tq, gs_path, mip=0, fill_missing=True)
             tasks = create_downsampling_tasks(gs_path, mip=0, fill_missing=True)
             tq.insert_all(tasks)
