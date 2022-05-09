@@ -52,6 +52,7 @@ class Options(object):
         self.parser.add_argument('--blv',  action='store_true')
         self.parser.add_argument('--blv_num_channels', type=int, default=2)
         self.parser.add_argument('--glia',  action='store_true')
+        self.parser.add_argument('--sem',  action='store_true')
 
         # Test-time augmentation
         self.parser.add_argument('--test_aug', type=int, default=None, nargs='+')
@@ -160,6 +161,12 @@ class Options(object):
             opt.out_spec['blood_vessel'] = (opt.blv_num_channels,) + opt.outputsz
         if opt.glia:
             opt.out_spec['glia'] = (1,) + opt.outputsz
+        if opt.sem:
+            opt.out_spec['soma'] = (1,) + opt.outputsz
+            opt.out_spec['axon'] = (1,) + opt.outputsz
+            opt.out_spec['dendrite'] = (1,) + opt.outputsz
+            opt.out_spec['glia'] = (1,) + opt.outputsz
+            opt.out_spec['bvessel'] = (1,) + opt.outputsz
         assert(len(opt.out_spec) > 0)
 
         # Scan spec
@@ -182,6 +189,12 @@ class Options(object):
             opt.scan_spec['blood_vessel'] = (opt.blv_num_channels,) + opt.outputsz
         if opt.glia:
             opt.scan_spec['glia'] = (1,) + opt.outputsz
+        if opt.sem:
+            opt.scan_spec['soma'] = (1,) + opt.outputsz
+            opt.scan_spec['axon'] = (1,) + opt.outputsz
+            opt.scan_spec['dendrite'] = (1,) + opt.outputsz
+            opt.scan_spec['glia'] = (1,) + opt.outputsz
+            opt.scan_spec['bvessel'] = (1,) + opt.outputsz
 
         # Overlap & stride
         if opt.stride is None:
