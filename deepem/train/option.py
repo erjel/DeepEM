@@ -90,6 +90,10 @@ class Options(object):
         self.parser.add_argument('--lost', action='store_true')
         self.parser.add_argument('--random', action='store_true')
 
+        # Tilt-series electron tomography
+        self.parser.add_argument('--tilt_series_src', type=int, default=0)
+        self.parser.add_argument('--tilt_series_dst', type=int, default=0)
+        
         # Long-range affinity
         self.parser.add_argument('--long', type=float, default=0)
         self.parser.add_argument('--edges', type=vec3, default=[], nargs='+')
