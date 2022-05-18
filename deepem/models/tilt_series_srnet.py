@@ -22,10 +22,12 @@ def create_model(opt):
         core = rsunet_act(width=width[:depth], act=opt.act)
 
     # Tilt series super-resolution
+    assert opt.tilt_series > 0
     assert (opt.tilt_series_in > 0) and (opt.tilt_series_out > 0)
     assert opt.tilt_series_in % opt.tilt_series_out == 0
     scale = opt.tilt_series_in // opt.tilt_series_out
-    return Model(core, opt.in_spec, opt.out_spec, width[0], scale, 
+    return Model(core, opt.in_spec, opt.out_spec, 
+                 opt.tilt_series, width[0], scale, 
                  cropsz=opt.cropsz)
 
 

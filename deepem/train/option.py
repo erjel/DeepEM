@@ -91,8 +91,9 @@ class Options(object):
         self.parser.add_argument('--random', action='store_true')
 
         # Tilt-series electron tomography
-        self.parser.add_argument('--tilt_series_in', type=int, default=0)
-        self.parser.add_argument('--tilt_series_out', type=int, default=0)
+        self.parser.add_argument('--tilt_series', type=int, default=0)
+        self.parser.add_argument('--tilt_series_in', type=int, default=12)
+        self.parser.add_argument('--tilt_series_out', type=int, default=4)
         
         # Long-range affinity
         self.parser.add_argument('--long', type=float, default=0)
@@ -161,6 +162,11 @@ class Options(object):
         aug_keys = ['recompute','flip','grayscale','warping','misalign',
                     'interp','missing','blur','box','mip','lost','random']
         opt.aug_params = {k: args[k] for k in aug_keys}
+
+        # Tilt-series electron tomography
+        opt.aug_params['tilt_series'] = (args['tilt_series'],
+                                         args['tilt_series_in'],
+                                         args['tilt_series_out'])
 
         # Model
         opt.fov = tuple(opt.fov)
