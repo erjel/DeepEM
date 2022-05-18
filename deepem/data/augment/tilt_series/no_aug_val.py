@@ -1,7 +1,8 @@
 from augmentor import *
 
 
-def get_augmentation(is_train, tilt_series=(0,0,0), recompute=False, **kwargs):
+def get_augmentation(is_train, tilt_series=(0,0,0), tilt_series_crop=None,
+                     recompute=False, **kwargs):
     augs = []
 
     # Flip & rotate (isotropic)
@@ -17,6 +18,8 @@ def get_augmentation(is_train, tilt_series=(0,0,0), recompute=False, **kwargs):
         assert ts_in % ts_out == 0
         augs.append(TiltSeries(ts_in))
         augs.append(SubsampleLabels(factor=(ts_out,1,1)))
+        if tilt_series_crop is not None:
+            augs.append(CropLabels(tilt_series_crop))
 
     # Recompute connected components
     if recompute:

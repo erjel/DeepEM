@@ -94,6 +94,7 @@ class Options(object):
         self.parser.add_argument('--tilt_series', type=int, default=0)
         self.parser.add_argument('--tilt_series_in', type=int, default=12)
         self.parser.add_argument('--tilt_series_out', type=int, default=4)
+        self.parser.add_argument('--tilt_series_crop', type=vec3, default=None)
         
         # Long-range affinity
         self.parser.add_argument('--long', type=float, default=0)
@@ -167,6 +168,7 @@ class Options(object):
         opt.aug_params['tilt_series'] = (opt.tilt_series,
                                          opt.tilt_series_in,
                                          opt.tilt_series_out)
+        opt.aug_params['tilt_series_crop'] = opt.tilt_series_crop
 
         # Model
         opt.fov = tuple(opt.fov)
@@ -176,14 +178,18 @@ class Options(object):
         opt.out_spec = dict()
         opt.loss_weight = dict()
 
-        # Crop output
-        diff = np.array(opt.fov) - np.array(opt.outputsz)
-        assert all(diff >= 0)
-        if any(diff > 0):
-            # opt.cropsz = opt.outputsz
-            opt.cropsz = [o/float(f) for f,o in zip(opt.fov,opt.outputsz)]
+        # Output cropping
+        opt.cropsz = None
+        if opt.tilt_series > 0:
+            if opt.tilt_series_crop:
+                fov = list(opt.fov)
+                fov[-3] = opt.fov[-3] // opt.tilt_series_out
+                opt.cropsz = [o/float(f) for f,o in zip(fov, opt.tilt_series_crop)]
         else:
-            opt.cropsz = None
+            diff = np.array(opt.fov) - np.array(opt.outputsz)
+            assert all(diff >= 0)
+            if any(diff > 0):
+                opt.cropsz = [o/float(f) for f,o in zip(opt.fov, opt.outputsz)]
 
         # Multiclass detection
         class_keys = list()

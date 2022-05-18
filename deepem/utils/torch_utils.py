@@ -48,10 +48,13 @@ def crop_center(v, size):
 
 
 def crop_center_no_strict(v, size):
-    if not all([a >= b for a, b in zip(v.shape[-3:], size[-3:])]):
-        return v[...]
-    z, y, x = size[-3:]
-    sx = (v.shape[-1] - x) // 2
-    sy = (v.shape[-2] - y) // 2
-    sz = (v.shape[-3] - z) // 2
-    return v[..., sz:sz+z, sy:sy+y, sx:sx+x]
+    assert v.ndim > 3
+    assert len(size) == 3
+    idx = [slice(None)] * (v.ndim - 3)
+    for x, y in zip(v.shape[-3:], size[-3:]):
+        if x > y:
+            s = (x - y)//2
+            idx.append(slice(s, s + y))
+        else:
+            idx.append(slice(None))
+    return v[idx]
