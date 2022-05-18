@@ -99,8 +99,13 @@ class Logger(object):
         for k in sorted(self.in_spec):
             tag = f"{phase}/images/{k}"
             tensor = sample[k][0,...].cpu()
-            tensor = torch_utils.crop_center(tensor, cropsz)
-            self.log_image(tag, tensor, iter_num)
+            tensor = torch_utils.crop_center_no_strict(tensor, cropsz)
+            num_channels = tensor.shape[-4]
+            if num_channels > 3:
+                self.log_image(tag, tensor[0:3,...], iter_num)
+            else:
+                self.log_image(tag, tensor, iter_num)
+            
 
         # Outputs
         for k in sorted(self.out_spec):

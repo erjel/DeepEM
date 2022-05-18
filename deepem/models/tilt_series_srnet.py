@@ -59,7 +59,7 @@ class Model(nn.Sequential):
                  io_kernel=(1,5,5), cropsz=None):
         super(Model, self).__init__()
         assert len(in_spec)==1, "model takes a single input"
-        self.add_module('in', InputBlock(in_channels, out_channels, scale, io_kernel))
+        self.add_module('in', InputBlock(in_channels, out_channels, io_kernel))
         self.add_module('core', core)
         self.add_module('out', OutputBlock(out_channels, out_spec, scale, io_kernel))
         if cropsz is not None:

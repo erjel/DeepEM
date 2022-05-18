@@ -164,9 +164,9 @@ class Options(object):
         opt.aug_params = {k: args[k] for k in aug_keys}
 
         # Tilt-series electron tomography
-        opt.aug_params['tilt_series'] = (args['tilt_series'],
-                                         args['tilt_series_in'],
-                                         args['tilt_series_out'])
+        opt.aug_params['tilt_series'] = (opt.tilt_series,
+                                         opt.tilt_series_in,
+                                         opt.tilt_series_out)
 
         # Model
         opt.fov = tuple(opt.fov)

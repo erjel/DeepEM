@@ -20,6 +20,7 @@ def load_data(data_dir , data_ids=None, **kwargs):
             dpath = os.path.join(data_dir, data_id)
             assert os.path.exists(dpath)
             data[data_id] = load_dataset(dpath, **kwargs)
+    return data
 
 
 def load_dataset(dpath, **kwargs):

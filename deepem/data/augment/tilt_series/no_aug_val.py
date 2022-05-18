@@ -1,12 +1,11 @@
 from augmentor import *
 
 
-def get_augmentation(is_train, tilt_series=(0,0,0), recompute=False, flip=False, 
-                     **kwargs):
+def get_augmentation(is_train, tilt_series=(0,0,0), recompute=False, **kwargs):
     augs = []
 
     # Flip & rotate (isotropic)
-    if flip:
+    if not is_train:
         augs.append(FlipRotateIsotropic())
 
     # Tilt series projection & label subsampling
