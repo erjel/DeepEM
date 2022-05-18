@@ -42,3 +42,21 @@ class Crop(nn.Module):
                 cropsz = [int(v.shape[i]*self.cropsz[i]) for i in [-3,-2,-1]]
                 x[k] = torch_utils.crop_center(v, cropsz)
         return x
+
+
+class ShuffleZ(nn.Module):
+    """
+    Reference: 
+        https://github.com/gap370/pixelshuffle3d/blob/master/pixelshuffle3d.py
+    """
+    def __init__(self, scale):
+        super().__init__()
+        self.scale = scale
+
+    def forward(self, input):
+        s = self.scale
+        n, c, z, y, x = input.size()
+        assert c % s == 0
+        input_view = input.contiguous().view(n, c//s, s, z, y, x)
+        output = input_view.permute(0, 1, 3, 2, 4, 5).contiguous()
+        return output.view(n, c//s, z*s, y, x)

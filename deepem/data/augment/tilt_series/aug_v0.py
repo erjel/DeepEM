@@ -2,7 +2,7 @@ from augmentor import *
 
 
 def get_augmentation(is_train, recompute=False, flip=False, 
-                     tilt_series_src=0, tilt_series_dst=0, **kwargs):
+                     tilt_series_in=0, tilt_series_out=0, **kwargs):
     augs = []
 
     # Flip & rotate (isotropic)
@@ -10,12 +10,10 @@ def get_augmentation(is_train, recompute=False, flip=False,
         augs.append(FlipRotateIsotropic())
 
     # Tilt series projection & label subsampling
-    ts_src = tilt_series_src
-    ts_dst = tilt_series_dst
-    if ts_src > 0 and ts_dst:
-        assert ts_src > ts_dst
-        augs.append(TiltSeries(ts_src))
-        augs.append(SubsmapleLabels(factor=(ts_dst,1,1)))
+    if (tilt_series_in > 0) and (tilt_series_out > 0):
+        assert tilt_series_in > tilt_series_out
+        augs.append(TiltSeries(tilt_series_in))
+        augs.append(SubsmapleLabels(factor=(tilt_series_out,1,1)))
 
     # Recompute connected components
     if recompute:
