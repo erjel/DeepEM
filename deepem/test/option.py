@@ -56,6 +56,7 @@ class Options(object):
 
         # Test-time augmentation
         self.parser.add_argument('--test_aug', type=int, default=None, nargs='+')
+        self.parser.add_argument('--test_aug16', action='store_true')
         self.parser.add_argument('--variance', action='store_true')
 
         # Temperature T for softer softmax
@@ -195,6 +196,10 @@ class Options(object):
             opt.scan_spec['dendrite'] = (1,) + opt.outputsz
             opt.scan_spec['glia'] = (1,) + opt.outputsz
             opt.scan_spec['bvessel'] = (1,) + opt.outputsz
+
+        # Test-time augmentation
+        if opt.test_aug16:
+            opt.test_aug = list(range(16))
 
         # Overlap & stride
         if opt.stride is None:
