@@ -23,11 +23,11 @@ def get_coord_bbox(cvol, opt):
         opt.begin = tuple(x - (y//2) for x, y in zip(opt.center, opt.size))
         opt.end = tuple(x + y for x, y in zip(opt.begin, opt.size))
     else:
-        if not opt.begin:
+        if opt.begin is None:
             opt.begin = offset
-        if not opt.end:
-            if not opt.size:
-                opt.end = offset + cvol.shape
+        if opt.end is None:
+            if opt.size is None:
+                opt.end = offset + cvol.shape[:3]
             else:
                 opt.end = tuple(x + y for x, y in zip(opt.begin, opt.size))
     return Bbox(opt.begin, opt.end)
