@@ -1,6 +1,7 @@
 import argparse
 import os
 import numpy as np
+import samwise
 
 from deepem.utils.py_utils import vec3
 
@@ -21,6 +22,10 @@ class Options(object):
         self.parser.add_argument('--sampler',  required=True)
         self.parser.add_argument('--augment',  default=None)
         self.parser.add_argument('--modifier', default=None)
+
+        # file synchronization for spot/preemptible training
+        self.parser.add_argument('--samwise_map', nargs='*', default=None)
+        self.parser.add_argument('--samwise_period', type=int, default=600)
 
         # cuDNN auto-tuning
         self.parser.add_argument('--no_autotune', action='store_false')
@@ -135,6 +140,10 @@ class Options(object):
             opt.exp_dir = 'test/' + opt.exp_dir
         opt.log_dir = os.path.join(opt.exp_dir, 'logs')
         opt.model_dir = os.path.join(opt.exp_dir, 'models')
+
+        # Samwise synchronization
+        if opt.samwise_map is not None:
+            opt.samwise_map = samwise.parse.parsemap(opt.samwise_map)
 
         # Training/validation sets
         if (not opt.train_ids) or (not opt.val_ids):
