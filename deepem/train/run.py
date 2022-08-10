@@ -2,6 +2,7 @@ import os
 import time
 
 import torch
+import samwise
 
 from deepem.train.logger import Logger
 from deepem.train.option import Options
@@ -137,4 +138,11 @@ if __name__ == "__main__":
 
     # Run experiment.
     print(f"Running experiment: {opt.exp_name}")
-    train(opt)
+    if opt.samwise_map is None:
+        train(opt)
+
+    else:
+        def f():
+            train(opt)
+
+        samwise.run(f, opt.samwise_map, period=opt.samwise_period)

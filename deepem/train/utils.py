@@ -1,5 +1,6 @@
 import imp
 import os
+import glob
 
 import torch
 from torch.nn.parallel import data_parallel
@@ -45,6 +46,8 @@ def load_model(opt):
 
     if opt.pretrain:
         model.load(opt.pretrain)
+    if opt.chkpt_num == -1:
+        opt.chkpt_num = latest_chkpt(opt.model_dir)
     if opt.chkpt_num > 0:
         model = load_chkpt(model, opt.model_dir, opt.chkpt_num)
 
@@ -72,10 +75,26 @@ def load_optimizer(opt, trainable):
 
 
 def load_chkpt(model, fpath, chkpt_num):
+    if chkpt_num == -1:
+        chkpt_num = latest_chkpt(fpath)
+
     print(f"LOAD CHECKPOINT: {chkpt_num} iters.")
     fname = os.path.join(fpath, f"model{chkpt_num}.chkpt")
     model.load(fname)
     return model
+
+
+def latest_chkpt(fpath):
+    """Finds the checkpoint with the largest iteration number."""
+    modelfilenames = glob.glob(os.path.join(fpath, "model*.chkpt"))
+
+    def chkpt_num_from_filename(f):
+        b = os.path.basename(f)
+        return int(os.path.splitext(b)[0][5:])
+
+    chkpt_nums = [chkpt_num_from_filename(f) for f in modelfilenames]
+
+    return max(chkpt_nums) if len(chkpt_nums) > 0 else 0
 
 
 def save_chkpt(model, fpath, chkpt_num, optimizer):
