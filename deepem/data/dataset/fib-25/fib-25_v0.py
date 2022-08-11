@@ -8,7 +8,7 @@ data_keys = ['validation_sample']
 merger_ids = [2148]
 
 
-def load_data(data_dir , data_ids=None, **kwargs):
+def load_data(data_dir, data_ids=None, **kwargs):
     if data_ids is None:
         return {}
     
