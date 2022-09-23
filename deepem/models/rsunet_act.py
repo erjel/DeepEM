@@ -30,15 +30,19 @@ class InputBlock(nn.Sequential):
 
 
 class OutputBlock(nn.Module):
-    def __init__(self, in_channels, out_spec, kernel_size):
+    def __init__(self, in_channels, out_spec, kernel_size, onnx=False):
         super(OutputBlock, self).__init__()
+        self.onnx = onnx
         for k, v in out_spec.items():
             out_channels = v[-4]
             self.add_module(k,
                     Conv(in_channels, out_channels, kernel_size, bias=True))
 
     def forward(self, x):
-        return {k: m(x) for k, m in self.named_children()}
+        if self.onnx:
+            return tuple(m(x) for k, m in self.named_children())
+        else:
+            return {k: m(x) for k, m in self.named_children()}
 
 
 class Model(nn.Sequential):
@@ -46,7 +50,7 @@ class Model(nn.Sequential):
     Residual Symmetric U-Net.
     """
     def __init__(self, core, in_spec, out_spec, out_channels, io_kernel=(1,5,5),
-                 cropsz=None):
+                 cropsz=None, onnx=False):
         super(Model, self).__init__()
 
         assert len(in_spec)==1, "model takes a single input"
@@ -54,6 +58,7 @@ class Model(nn.Sequential):
 
         self.add_module('in', InputBlock(in_channels, out_channels, io_kernel))
         self.add_module('core', core)
-        self.add_module('out', OutputBlock(out_channels, out_spec, io_kernel))
+        self.add_module('out', 
+            OutputBlock(out_channels, out_spec, io_kernel, onnx=onnx))
         if cropsz is not None:
             self.add_module('crop', Crop(cropsz))

@@ -38,6 +38,7 @@ def dummy_input(opt, device='cpu'):
 if __name__ == "__main__":
     # Options
     opt = Options().parse()
+    opt.onnx = True
 
     # CPU or GPU
     opt.device = 'cuda' if torch.cuda.is_available() else 'cpu'
@@ -53,6 +54,6 @@ if __name__ == "__main__":
         export_params=True,
         opset_version=10,
         input_names=["input"],
-        output_names=[*opt.out_spec.keys()]
+        output_names=["output"]
     )
     print(f"Relative ONNX filepath: {fname}")
